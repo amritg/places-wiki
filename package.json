@@ -1,0 +1,11 @@
+{
+  "name": "places-wiki",
+  "version": "1.0.0",
+  "description": "Find all information about any place in Earth",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Amrit Gautam",
+  "license": "ISC"
+}
