@@ -2,5 +2,9 @@ form {
     text-align: center;
 }
 #placeImage{
-    padding-top: 30px;
+    padding: 10px;
+    overflow: hidden;
+}
+#placeNytInfo{
+    padding: 10px;
 }
