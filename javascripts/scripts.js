@@ -26,13 +26,15 @@ $(document).ready(function(){
         $placeImage.empty(); // Remove previous searched image to Insert New image per search
         $placeNytInfo.empty(); // Remove previous NYT news to Insert New news hedings per search
         $placeWikiInfo.empty();
-        // Add image from Google Street View API of matched address
-        $placeImage.append("<img id = 'searchImage' src='https://maps.googleapis.com/maps/api/streetview?size=500x300&location="+$completeAddress+"&key=AIzaSyDGxY_Mg_cOM4uNKdFe-TaBYqpBBBfxSQM'>");
         
-        $placeNytInfo.append(loadingTextNyt);
-        $placeWikiInfo.append(loadingTextWiki);
-        // API request
-
+        // Add image from Google Street View API of matched address
+        // $placeImage.append("<img id = 'searchImage' src='https://maps.googleapis.com/maps/api/streetview?size=500x300&location="+$completeAddress+"&key=AIzaSyDGxY_Mg_cOM4uNKdFe-TaBYqpBBBfxSQM'>");
+        
+        // $placeNytInfo.append(loadingTextNyt);
+        // $placeWikiInfo.append(loadingTextWiki);
+        
+        /************** NYT API request *********/
+        
         $.getJSON(newYorkTimesURL)
             .done(function(data){
                 // console.log(data.response.docs);
@@ -55,14 +57,13 @@ $(document).ready(function(){
                 var errorMessage = "<h3 style='color:#c83349;'>Sorry, NewYork Times articles could not be loaded.</h3>";
                 $placeNytInfo.append(errorMessage);
             });
-
+        /************** Wikipedia API request *********/   
         $.ajax( {
             url: "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch="+ $citySource.val() +"&format=json",
             dataType: 'jsonp',
             crossDomain: true
             })
             .done(function(data){
-                // console.log(data);
                 if(!data.error){
                     var matchItems = data.query.search;
                     var outDiv = '<ol>';
@@ -89,10 +90,36 @@ $(document).ready(function(){
                 $placeWikiInfo.append("<h3 style='color:#c83349;'>Failed to load wikipedia content</h3>");
             });
 
-        // Empty search fields items in the end
-        // $streetSource.val("");
+        // $streetSource.val("");   // Empty search fields items in the end
         // $citySource.val("");
     };
 });
 
+/************** In Global Scope --> Google Geoconding API *********/
+function initMap(){
+    var map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 60.1639305, lng: 24.9001875},
+        zoom: 10
+    });
+    var geocoder = new google.maps.Geocoder();
 
+    document.getElementById('submitButton').addEventListener('click',function(){
+        geocodeAddress(geocoder, map);
+    });
+
+    function geocodeAddress(geocoder, resultsMap) {
+        var address =  document.getElementById('street').value +', '+ document.getElementById('city').value;
+        console.log(address);
+        geocoder.geocode({'address': address}, function(results, status) {
+        if (status === 'OK') {
+            resultsMap.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker({
+            map: resultsMap,
+            position: results[0].geometry.location
+            });
+        } else {
+            alert('Oops! Google cannot find the place');
+        }
+        });
+    }
+}

@@ -28,9 +28,16 @@ h1,h2,h3{
 form {
     text-align: center;
 }
+#map{
+	margin-top: 20px;
+	height: 300px;
+}
 #placeImage{
     padding: 10px;
     overflow: hidden;
+}
+#articles{
+    margin: 30px 0px 30px 0px;
 }
 .informationBox{
     text-align: center;
@@ -47,6 +54,7 @@ form {
 input[type="text"]{
     height: 38px;
     border-radius: 0px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 #submitButton{
     height: 44px;
