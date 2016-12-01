@@ -95,7 +95,7 @@ $(document).ready(function(){
     };
 });
 
-/************** In Global Scope --> Google Geoconding API *********/
+/************** In Global Scope --> Google Geocoding API *********/
 function initMap(){
     var map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 60.1639305, lng: 24.9001875},
